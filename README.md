@@ -26,7 +26,7 @@
 
 # 3. Project Structure
 
-    ```
+
     project/
         ├── calendars/
         │   ├── auth.py
@@ -49,7 +49,8 @@
         ├── main.py
         ├── README.md
         └── pyproject.toml
-    ```
+
+
 
     [Workflow]
 
@@ -153,18 +154,15 @@
     - Handler는 Business Logic(사용자의 일정 요청)을 수행한다. 
 
 
+    1) Calendar 처리 Agent 작업 흐름
+
+    1. CLI로 입력받기
+    2. LLM이 의도 판단 → "calendar"
+    3. LLM이 schema에 맞게 날짜/시간/제목 등 추출
+    4. 로직이 그걸 받아서 Google Calendar API 호출 전에 — 기존 일정 조회 먼저
+    5. 충돌 없으면 등록, 있으면 알림
 
 
-'''
-### 1) Calendar 처리 Agent 작업 흐름
+    2) Slack bot AI 관련 추천 논문 정보 게시 Agent 작업 흐름 및 구조
 
-1. CLI로 입력받기
-2. LLM이 의도 판단 → "calendar"
-3. LLM이 schema에 맞게 날짜/시간/제목 등 추출
-4. 로직이 그걸 받아서 Google Calendar API 호출 전에 — 기존 일정 조회 먼저
-5. 충돌 없으면 등록, 있으면 알림
-
-
-### 2) Slack bot AI 관련 추천 논문 정보 게시 Agent 작업 흐름 및 구조
-'''
 
