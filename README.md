@@ -1,18 +1,18 @@
 
-1. Project overview
+# 1. Project overview
 
-    * 이 프로젝트는 LLM 기반 Google calendar의 일정을 처리하는 Calendar Agent입니다. 
+    - 이 프로젝트는 LLM 기반 Google calendar의 일정을 처리하는 Calendar Agent입니다. 
 
-    * 사용자의 자연어 입력을 분석하여 아래의 업무들을 수행합니다. 
+    - 사용자의 자연어 입력을 분석하여 아래의 업무들을 수행합니다. 
         - 일정 조회
         - 일정 생성
         - 일정 수정
         - 일정 삭제
     
-    * Google Calendar API와 연동되며, 다중 일정 작업(Multi Action)도 지원합니다. 
+    - Google Calendar API와 연동되며, 다중 일정 작업(Multi Action)도 지원합니다. 
 
 
-2. Features
+# 2. Features
 
     - Natural language calendar scheduling
     - Create event
@@ -24,24 +24,32 @@
     - Google Calendar Invitation
 
 
-3. Project Structure
+# 3. Project Structure
 
+    ```
     project/
         ├── calendars/
         │   ├── auth.py
         │   ├── handler.py
-        │   ├── service.py
+        │   └── service.py
         │
         ├── workflow/
         │   ├── planner.py
-        │   ├── router.py
+        │   └── router.py
         │
         ├── prompts/
-        │   ├── intent_prompt.md
+        │   └── intent_prompt.md
         │
-        ├── config.py
+        ├── common/
+        │   ├── logger.py
+        │   └── config.py
+        │
+        ├── logs/
+        │
         ├── main.py
-
+        ├── README.md
+        └── pyproject.toml
+    ```
 
     [Workflow]
 
@@ -60,7 +68,7 @@
         Google Calendar API
 
 
-4. Tech stack
+# 4. Tech stack
 
     - Python 3.12
     - OpenAI GPT-4o-mini
@@ -69,29 +77,29 @@
     - dotenv
 
 
-5. Installation
+# 5. Installation
 
-    git clone ...
+    git clone https://github.com/JaesunKim0212/calendar_api.git
 
 
 
-6. Environment Variables
+# 6. Environment Variables
 
-    OPENAI_API_KEY=
-    TOKEN_PATH=
-    GOOGLE_CREDENTIALS=
+    OPENAI_API_KEY="your openai api key"
+    TOKEN_PATH="... / token.json"
+    GOOGLE_CREDENTIALS="... / credential.json"
 
     - credentials.json은 Google Cloud Console에서 다운받아야 합니다. 
 
 
 
-7. How to Run
+# 7. How to Run
 
     python main.py
 
 
 
-8. Example
+# 8. Example
 
     1) 6월 23일 잡힌 회의 일정 삭제 해 줘
         - Planner Output: {
@@ -117,12 +125,12 @@
 
 
 
-9. Architecture
+# 9. Architecture
 
     User query -> Planner(LLM) -> Structured output -> Router -> Calendar Service -> Google Calendar 
 
 
-10. Future Work
+# 10. Future Work
 
     - Gmail notification
     - Slack Notification
@@ -134,9 +142,9 @@
 
 
 
-11. Design Decisions
+# 11. Design Decisions
 
-    ## Why Planner / Router / Handler?
+    ### Why Planner / Router / Handler?
 
     - Planner는 자연어 쿼리를 받아 의도를 분류하고 Structured Output으로 변환한다. 
 
@@ -148,7 +156,7 @@
 
 
 '''
-## 1) Calendar 처리 Agent 작업 흐름
+### 1) Calendar 처리 Agent 작업 흐름
 
 1. CLI로 입력받기
 2. LLM이 의도 판단 → "calendar"
@@ -157,6 +165,6 @@
 5. 충돌 없으면 등록, 있으면 알림
 
 
-## 2) Slack bot AI 관련 추천 논문 정보 게시 Agent 작업 흐름 및 구조
+### 2) Slack bot AI 관련 추천 논문 정보 게시 Agent 작업 흐름 및 구조
 '''
 
