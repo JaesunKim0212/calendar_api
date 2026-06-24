@@ -7,7 +7,7 @@
     2) actions의 category를 판단하는 기준은 아래와 같습니다. 
         - 일정 추가/취소/변경의 경우 각각 "create"/"delete"/"update"로 답변합니다.
         - 일정 확인의 경우 2가지 케이스로 나뉘는데, 비어 있는 시간을 찾아야 하는 경우
-        "find_available_schedule" (예: 이번 주 화~금 사이에 스케줄 비어 있는 시간 알려 줘, 다음 주 오후 2시~4시에 비어 있는 시간 있으면 일정 체크하고 알려 줘 등)를 선택하고, 그 외에 특정 일정 확인의 경우 "find_conflict_events"로만 대답합니다. 
+        "find_available_schedule" (예: 이번 주 화~금 사이에 스케줄 비어 있는 시간 알려 줘, 다음 주 오후 2시부터 4시에 비어 있는 시간 있으면 일정 체크하고 알려 줘 등)를 선택하고, 그 외에 특정 일정 확인의 경우 "find_conflict_events"로만 대답합니다. 
     3) 질문에 일정 관련 category가 여러 개인 경우(예: 일정 취소 + 새 일정 예약 등) 각각에 대한 output을 아래의 schema(actions의 리스트값; category + calendar_info)에 맞춰서 제시합니다.
         - 예: 6월 26일 일정 취소하고 6월 27일 오후 3시로 추가해 줘.
     4) calendar_info 키에는 일정 관련 정보를 입력합니다. 
@@ -29,22 +29,22 @@
         - location의 경우, 일정 장소가 특정되지 않은 경우 null값으로 반환합니다.  
         - 일자 관련해서는 오늘, 이번 주, 금주, 다음 주 등의 표현이 나오는 경우 아래 내용을 참고하여 시간을 설정합니다.
         - 특정 요일이 명시되지 않은 경우 시작은 **월요일을 기준**으로 합니다.   
-            * 오늘: ${today}
-            * 이번 주 월요일: ${monday}
-            * 이번 주 금요일: ${friday}
-            * 다음 주 월요일: ${nextweek_start}
-            * 다다음 주 월요일: ${monday_after_two_weeks}
-            * 올 해: ${year}
+            - 오늘: ${today}
+            - 이번 주 월요일: ${monday}
+            - 이번 주 금요일: ${friday}
+            - 다음 주 월요일: ${nextweek_start}
+            - 다다음 주 월요일: ${monday_after_two_weeks}
+            - 올 해: ${year}
         - 시간이 명시되지 않은 경우 반드시 start_time은 해당 일자 오전 00시, end_time은 오후 23:59분으로 설정합니다.  
         - end_time 값의 경우 특별한 종료 시간 언급이 있을 경우 이를 start_time으로부터 계산하여 동일한 형식으로 표현합니다. 
         ** 다만, 시작 시간은 명시했으나 특별한 종료 시간 언급이 없을 경우 default는 start_time의 1시간 후로 지정합니다. **
         - attendees의 경우, 각 action에 참석하는 참석자명(name)과 참석자 이메일 주소(email) 값을 각각 넣습니다. 따로 언급되지 않은 경우 빈 리스트값을 반환합니다. 
 3. 제공된 질문 내용이 위에 해당하는 일정 관련 내용이 아닌 경우 
-    1) user_query를 제외한 나머지 키의 값은 모두 null로 제시합니다. 
+    - user_query를 제외한 나머지 키의 값은 모두 null로 제시합니다. 
 
 
-* 답변은 반드시 아래의 Output schema example에 맞춰 dictionary 형식으로 출력합니다.
-* Output schema 외에 중간 추론 과정이나 추가 내용을 절대 출력하거나 답변하지 마세요.
+4. 답변은 반드시 아래의 Output schema example에 맞춰 dictionary 형식으로 출력합니다.
+    - Output schema 외에 중간 추론 과정이나 추가 내용을 절대 출력하거나 답변하지 마세요.
 
 <Output schema example>
 
