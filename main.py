@@ -1,6 +1,5 @@
 import os
 import logging
-from datetime import datetime
 from common.logger import setup_logger
 from workflow.planner import get_intent_prompt, grasp_intent
 from workflow.route import route_intent
@@ -58,7 +57,7 @@ def main():
         result = grasp_intent(llm, user_query, intent_system_prompt)
         print(f"[grasp_intent] Result:\n{result}")
         route_intent(result, service)
-        logger.info(f"")
+        logger.info(f"[route_intent] 캘린더 업무를 완료했습니다.")
 
 
 if __name__ == "__main__":

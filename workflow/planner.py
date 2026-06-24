@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 def get_datetime_context() -> dict:
     now = datetime.now(ZoneInfo("Asia/Seoul"))
-    print("week 체크: {now.weekday()}")
     monday = now - timedelta(days=now.weekday())
     friday = monday + timedelta(days=4)
     nextweek = monday + timedelta(days=7)
@@ -32,7 +31,7 @@ def get_intent_prompt() -> str:
         prompt = f.read()
     
     prompt = Template(prompt).safe_substitute(get_datetime_context())
-    logger.info(f"[get_intent_prompt] Prompt conversion: {prompt}\n")
+    # logger.info(f"[get_intent_prompt] Prompt conversion: {prompt}\n")
     return prompt
 
 def grasp_intent(llm: OpenAI, user_query: str, sys_prompt: str) -> dict:

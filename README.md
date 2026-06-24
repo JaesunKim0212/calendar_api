@@ -15,10 +15,7 @@
 # 2. Features
 
     - Natural language calendar scheduling
-    - Create event
-    - Check event
-    - Update event
-    - Delete event
+    - Create/Check(find available schedules or find conflict events)/Update/Delete events
     - Multi-step Planning
     - Confict detection
     - Google Calendar Invitation
@@ -54,19 +51,20 @@
 
     [Workflow]
 
-        Planner
+        Planner             : 자연어 쿼리를 받아 의도를 분류하고 Structured Output으로 변환
 
         ↓
 
-        Router
+        Router              : Intent 기반으로 Calendar Handler 호출
 
         ↓
 
-        Calendar Handler
+        Calendar Handler    : Business Logic(사용자의 일정 요청) 수행
 
         ↓
 
         Google Calendar API
+
 
 
 # 4. Tech stack
@@ -76,6 +74,7 @@
     - Google Calendar API
     - OAuth2
     - dotenv
+
 
 
 # 5. Installation
@@ -103,25 +102,35 @@
 # 8. Example
 
     1) 6월 23일 잡힌 회의 일정 삭제 해 줘
-        - Planner Output: {
-            "user_query": "6월 23일 잡힌 회의 일정 삭제 해 줘",
-            "intent": "calendar",
-            "actions": [
-                { 
-                    "category": "delete",
-                    "calendar_info": 
-                        {"title": "회의",
-                        "location": null,
-                        "start_time": "2026-06-23T00:00:00+09:00", 
-                        "end_time": "2026-06-23T23:59:00+09:00",  
-                        "timezone": "Asia/Seoul",
-                        "attendees": []
-                        }
-                    }
-                ]
+        - Planner Output: 
+        {
+    "user_query": "user query content",
+    "intent": "calendar" or "",
+    "actions": [
+        { 
+            "category": "find_available_schedule" or "find_conflict_events" or "create" or "update" or "delete",
+            "calendar_info": 
+                {"title": "치과 예약",
+                "location": "서울특별시 강동구 암사동",
+                "start_time": "2026-06-17T15:30:00+09:00", 
+                "end_time": "2026-06-17T16:30:00+09:00",  
+                "timezone": "Asia/Seoul",
+                "attendees": [
+                    {
+                        "name": "김철수",
+                        "email": "cjftnkim@gmail.com"
+                    },
+                ],
+                "schedule_check_info": {
+                    "keyword": ["예약", "치과"],
+                    "attendee": ["cjftnkim@gmail.com"],
+                    "location": "암사동"
+                    } 
+                }
             }
+        ]
         - 결과: 해당 시간에 잡혀있는 일정 목록입니다. 아래 목록을 삭제하시겠습니까?
-                삭제를 원하시면 'Y/y' 또는 '네', 원치 않으시면 'N/n/No/no' or '아니요'로 답변해 주세요.:
+                삭제를 원하시면 'Y/y' 또는 '네', 원치 않으시면 'N/n/No/no' or '아니요'로 답변해 주세요.: y
                 해당 일정이 삭제되었습니다. 캘린더를 확인해 주세요.
 
 
@@ -139,28 +148,5 @@
     - LangGraph Migration
     - Memory
     - Reflection
-    - Logging/Fallback
-
-
-
-# 11. Design Decisions
-
-    1) Why Planner / Router / Handler?
-
-    - Planner는 자연어 쿼리를 받아 의도를 분류하고 Structured Output으로 변환한다. 
-
-    - Router는 Intent를 기반으로 Calendar Handler를 호출한다.
-
-    - Handler는 Business Logic(사용자의 일정 요청)을 수행한다. 
-
-
-    2) Calendar 처리 Agent 작업 흐름
-
-    1. CLI로 입력받기
-    2. LLM이 의도 판단 → "calendar"
-    3. LLM이 schema에 맞게 날짜/시간/제목 등 추출
-    4. 로직이 그걸 받아서 Google Calendar API 호출 전에 — 기존 일정 조회 먼저
-    5. 충돌 없으면 등록, 있으면 알림
-
-
+    - Fallback
 
